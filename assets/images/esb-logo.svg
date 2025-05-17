@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="63.798 156.484 140.476 24.585">
+  <text style="fill: rgb(83, 139, 200); font-family: Arial, sans-serif; font-size: 28px; white-space: pre;"><tspan style="font-style: italic;" x="61.068" y="178.953">Go</tspan><tspan> </tspan></text>
+  <text style="fill: rgb(83, 139, 200); font-family: Arial, sans-serif; font-size: 28px; white-space: pre;" x="149.77" y="179.176">ESB</text>
+  <text style="fill: rgb(83, 139, 200); font-family: Arial, sans-serif; font-size: 14px; font-style: italic; font-weight: 700; stroke-miterlimit: 4.11; white-space: pre;" transform="matrix(1, 0, 0, 1, -13.134975, -4.465842)"><tspan x="118.37" y="171.274">&lt; IN</tspan><tspan x="118.37" dy="1em">​</tspan><tspan>OUT &gt;</tspan></text>
+</svg>

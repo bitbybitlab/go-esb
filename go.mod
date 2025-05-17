@@ -8,10 +8,11 @@ require (
 	github.com/gobuffalo/envy v1.10.2
 	github.com/gobuffalo/grift v1.5.2
 	github.com/gobuffalo/middleware v1.0.0
+	github.com/gobuffalo/nulls v0.4.2
 	github.com/gobuffalo/pop/v6 v6.1.1
 	github.com/gobuffalo/suite/v4 v4.0.4
-	github.com/unrolled/secure v1.17.0
 	github.com/satori/go.uuid v1.2.0
+	github.com/unrolled/secure v1.17.0
 )
 
 require (
@@ -33,7 +34,6 @@ require (
 	github.com/gobuffalo/httptest v1.5.2 // indirect
 	github.com/gobuffalo/logger v1.0.7 // indirect
 	github.com/gobuffalo/meta v0.3.3 // indirect
-	github.com/gobuffalo/nulls v0.4.2 // indirect
 	github.com/gobuffalo/plush/v4 v4.1.18 // indirect
 	github.com/gobuffalo/plush/v5 v5.0.3 // indirect
 	github.com/gobuffalo/refresh v1.13.3 // indirect
@@ -68,7 +68,6 @@ require (
 	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
-	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/sourcegraph/annotate v0.0.0-20160123013949-f4cad6c6324d // indirect
