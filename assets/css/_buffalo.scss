@@ -3,7 +3,6 @@
 }
 
 header {
-  background-color: #62a5ee;
   padding: 10px 20px;
   box-sizing: border-box;
 }
@@ -130,4 +129,9 @@ table {
       width: 100%
     }
   }
+}
+
+.esb-main-content {
+  height: 92vh;
+  padding: 20px;
 }
