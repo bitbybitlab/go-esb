@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-ref uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
+id uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
 username varchar(50) NOT NULL,
 password varchar(50) NOT NULL,
 first_name varchar(50),

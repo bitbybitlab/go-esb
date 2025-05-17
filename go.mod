@@ -11,7 +11,6 @@ require (
 	github.com/gobuffalo/nulls v0.4.2
 	github.com/gobuffalo/pop/v6 v6.1.1
 	github.com/gobuffalo/suite/v4 v4.0.4
-	github.com/satori/go.uuid v1.2.0
 	github.com/unrolled/secure v1.17.0
 )
 

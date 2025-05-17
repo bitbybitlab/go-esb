@@ -14,6 +14,13 @@
     <div class="container">
       <%= partial("flash.html") %>
       <%= yield %>
+      <footer class="footer border-top">
+          <div class="container">
+            <div class="foot text-end">
+              <span> Powered by <a href="http://gobuffalo.io/">gobuffalo.io</a>. Read more on <a href="https://github.com/bitbybitlab/go-esb/">project's GitHub page</span>
+            </div>
+          </div>
+      </footer>
     </div>
 
     <%= javascriptTag("application.js") %>
