@@ -1,3 +1,9 @@
+![image](assets/images/esb-logo.svg)
+
+<br/>
+<br/>
+<br/>
+
 # Go ESB
 
 This repo is pet project: create ESB on Go using Buffalo
