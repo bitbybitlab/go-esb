@@ -1,0 +1,108 @@
+@startuml go_esb
+
+skinparam linetype ortho
+
+title ER-Diagram Go ESB
+
+entity "Global" as eGlobal {
+    *name : varchar (100)
+    --
+    *value : int, varchar, boolean, dateTime
+}
+
+entity "Users" as eUsers {
+    *ref : uuid <<FK>>
+    --
+    *username : varchar (50)
+    *password : varchar (50)
+}
+
+entity "Systems" as eSystems {
+    *ref : uuid <<generated>>
+    --
+    *name : varchar (100)
+}
+
+entity "ConnectionSettings" as eConnectionSettings {
+    *ref : uuid <<generated>>
+    --
+    *name : varchar (100)
+    *system : uuid <<FK>>
+    ip : varchar (50)
+    port : varchar (50)
+    path : varchar (300)
+    auth : uuid <<FK>>
+}
+
+eConnectionSettings -u-> eSystems : system
+
+entity "ConnectionAuthentications" as eConnectionAuthentications {
+    *ref : uuid <<generated>>
+    --
+    *name : varchar (100)
+    *system : uuid <<FK>>
+    *type : uuid <<FK>>
+    username : varchar (50)
+    password : varchar (50)
+    token : varchar (100)
+}
+
+eConnectionSettings -> eConnectionAuthentications : auth
+eConnectionAuthentications -u-> eSystems : system
+eConnectionAuthentications -> eAuthenticationTypes : type
+
+entity "ThreadsGroups" as eThreadsGroups {
+    *ref : uuid <<generated>>
+    --
+    *name : varchar (100)
+    *protocol : uuid <<FK>>
+    parent : uuid <<FK>>
+}
+
+eThreadsGroups -d-> eProtocols : protocol
+eThreadsGroups -> eThreadsGroups : parent
+
+enum "Protocols" as eProtocols {
+    + TCP
+    + REST
+    + SOAP
+    + AMQP
+}
+
+entity "Thread" as eThread {
+    *ref : uuid <<generated>>
+    --
+    *name : varchar (100)
+    *group : uuid <<FK>>
+    file_format : uuid <<FK>>
+}
+
+eThreadsGroups <- eThread : group
+eThread -> eFileFormats : file_format
+
+enum "FileFormats" as eFileFormats {
+    + XML
+    + JSON
+    + DBF
+    + CSV
+    + TXT
+}
+
+entity "Routes" as eRoutes {
+    *ref : uuid <<FK>>
+    --
+    *name : varchar (100)
+    *path : varchar (0)
+}
+
+enum "AuthenticationTypes" as eAuthenticationTypes {
+    + Basic
+    + BearerToken
+}
+
+enum "MessageBrokersTypes" as eMessageBrokersTypes {
+    + Kafka
+    + Rabbit
+}
+
+@enduml
