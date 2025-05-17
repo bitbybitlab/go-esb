@@ -1,0 +1,60 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">Users</h3>
+  <div class="float-end">
+    <%= linkTo(newUsersPath(), {class: "btn btn-dark"}) { %>
+      Create New User
+    <% } %>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr class="table-dark" text-align="left">
+      <th>Username</th>
+      <th>Last name</th>
+      <th>First name</th>
+      <th>Middle name</th>
+      <th>Phone</th>
+      <th>E-mail</th>
+      <th>Update time</th>
+      <th>Version</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for (user) in users { %>
+      <tr>
+        <td>
+          <%= user.Username %>
+        </td>
+        <td>
+          <%= user.LastName %>
+        </td>
+        <td>
+          <%= user.FirstName %>
+        </td>
+        <td>
+          <%= user.MiddleName %>
+        </td>
+        <td>
+          <%= user.Phone %>
+        </td>
+        <td>
+          <%= user.Email %>
+        </td>
+        <td>
+          <%= user.UpdateTime %>
+        </td>
+        <td>
+          <%= user.Version %>
+        </td>
+        <td>
+          <div class="float-end">
+            <%= linkTo(userPath({ user_id: user.Ref }), {class: "btn btn-info", "data-method": "GET", body: "View"}) %>
+            <%= linkTo(userPath({ user_id: user.Ref }), {class: "btn btn-danger", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
