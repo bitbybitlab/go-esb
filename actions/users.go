@@ -52,13 +52,60 @@ func (v UsersResource) Show(c buffalo.Context) error {
 }
 
 func (v UsersResource) New(c buffalo.Context) error {
+	c.Set("user", &models.User{})
+
 	return c.Render(http.StatusOK, r.HTML("users/new.plush.html"))
 }
 
 func (v UsersResource) Create(c buffalo.Context) error {
-	c.Set("users", getAllUsers())
+	user := &models.User{}
 
-	return c.Render(http.StatusOK, r.HTML("users/index.plush.html"))
+	if err := c.Bind(user); err != nil {
+		return err
+	}
+
+	tx, ok := c.Value("tx").(*pop.Connection)
+	if !ok {
+		return fmt.Errorf("no transaction found")
+	}
+
+	user.CreateTime = time.Now()
+	user.UpdateTime = user.CreateTime
+	user.Version = 1
+
+	verrs, err := tx.ValidateAndCreate(user)
+	if err != nil {
+		return err
+	}
+
+	if verrs.HasAny() {
+		c.Set("errors", verrs)
+
+		c.Set("user", user)
+
+		return c.Render(http.StatusUnprocessableEntity, r.HTML("users/new.plush.html"))
+	}
+
+	c.Flash().Add("success", T.Translate(c, "user.created.success"))
+
+	return c.Redirect(http.StatusSeeOther, "/users/%v", user.ID)
+}
+
+func (v UsersResource) Edit(c buffalo.Context) error {
+	tx, ok := c.Value("tx").(*pop.Connection)
+	if !ok {
+		return fmt.Errorf("no transaction found")
+	}
+
+	user := &models.User{}
+
+	if err := tx.Find(user, c.Param("user_id")); err != nil {
+		return c.Error(http.StatusNotFound, err)
+	}
+
+	c.Set("user", user)
+
+	return c.Render(http.StatusOK, r.HTML("users/edit.plush.html"))
 }
 
 func (v UsersResource) Update(c buffalo.Context) error {
@@ -99,11 +146,22 @@ func (v UsersResource) Update(c buffalo.Context) error {
 }
 
 func (v UsersResource) Destroy(c buffalo.Context) error {
-	c.Set("users", getAllUsers())
+	tx, ok := c.Value("tx").(*pop.Connection)
+	if !ok {
+		return fmt.Errorf("no transaction found")
+	}
 
-	return c.Render(http.StatusOK, r.HTML("users/index.plush.html"))
-}
+	user := &models.User{}
 
-func getAllUsers() []models.User {
-	return models.GetAllUsers()
+	if err := tx.Find(user, c.Param("user_id")); err != nil {
+		return c.Error(http.StatusNotFound, err)
+	}
+
+	if err := tx.Destroy(user); err != nil {
+		return err
+	}
+
+	c.Flash().Add("success", T.Translate(c, "user.destroyed.success"))
+
+	return c.Redirect(http.StatusSeeOther, "/users")
 }

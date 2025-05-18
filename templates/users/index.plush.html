@@ -1,9 +1,10 @@
 <div class="py-4 mb-2">
   <h3 class="d-inline-block">Users</h3>
   <div class="float-end">
-    <%= linkTo(newUsersPath(), {class: "btn btn-dark"}) { %>
+    <%= linkTo(newUsersPath(), {class: "btn btn-outline-success"}) { %>
       Create New User
     <% } %>
+    <%= linkTo(settingsPath(), {class: "btn btn-close"}) %>
   </div>
 </div>
 
@@ -50,8 +51,9 @@
         </td>
         <td>
           <div class="float-end">
-            <%= linkTo(userPath({ user_id: user.ID }), {class: "btn btn-info", "data-method": "GET", body: "View"}) %>
-            <%= linkTo(userPath({ user_id: user.ID }), {class: "btn btn-danger", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+            <%= linkTo(userPath({ user_id: user.ID }), {class: "btn btn-outline-dark", "data-method": "GET", body: "View"}) %>
+            <%= linkTo(editUserPath({ user_id: user.ID }), {class: "btn btn-outline-dark", "data-method": "GET", body: "Edit"}) %>
+            <%= linkTo(userPath({ user_id: user.ID }), {class: "btn btn-outline-dark", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
           </div>
         </td>
       </tr>
