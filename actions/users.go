@@ -3,12 +3,12 @@ package actions
 import (
 	"fmt"
 	"net/http"
-	"time"
+
+	"goesb/models"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v6"
-
-	"goesb/models"
+	"github.com/pkg/errors"
 )
 
 type UsersResource struct {
@@ -16,6 +16,7 @@ type UsersResource struct {
 }
 
 func (v UsersResource) List(c buffalo.Context) error {
+
 	tx, ok := c.Value("tx").(*pop.Connection)
 	if !ok {
 		return fmt.Errorf("no transaction found")
@@ -29,8 +30,9 @@ func (v UsersResource) List(c buffalo.Context) error {
 		return err
 	}
 
-	c.Set("users", users)
+	c.Set("pagination", q.Paginator)
 
+	c.Set("users", users)
 	return c.Render(http.StatusOK, r.HTML("users/index.plush.html"))
 }
 
@@ -69,11 +71,7 @@ func (v UsersResource) Create(c buffalo.Context) error {
 		return fmt.Errorf("no transaction found")
 	}
 
-	user.CreateTime = time.Now()
-	user.UpdateTime = user.CreateTime
-	user.Version = 1
-
-	verrs, err := tx.ValidateAndCreate(user)
+	verrs, err := user.Create(tx)
 	if err != nil {
 		return err
 	}
@@ -125,10 +123,7 @@ func (v UsersResource) Update(c buffalo.Context) error {
 		return err
 	}
 
-	user.UpdateTime = time.Now()
-	user.Version += 1
-
-	verrs, err := tx.ValidateAndUpdate(user)
+	verrs, err := user.Update(tx)
 	if err != nil {
 		return err
 	}
@@ -164,4 +159,29 @@ func (v UsersResource) Destroy(c buffalo.Context) error {
 	c.Flash().Add("success", T.Translate(c, "user.destroyed.success"))
 
 	return c.Redirect(http.StatusSeeOther, "/users")
+}
+
+func SetCurrentUser(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		if uid := c.Session().Get("current_user_id"); uid != nil {
+			u := &models.User{}
+			tx := c.Value("tx").(*pop.Connection)
+			err := tx.Find(u, uid)
+			if err != nil {
+				return errors.WithStack(err)
+			}
+			c.Set("current_user", u)
+		}
+		return next(c)
+	}
+}
+
+func Authorize(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		if uid := c.Session().Get("current_user_id"); uid == nil {
+			c.Flash().Add("danger", "You must be authorized to see that page")
+			return c.Redirect(302, "/signin")
+		}
+		return next(c)
+	}
 }

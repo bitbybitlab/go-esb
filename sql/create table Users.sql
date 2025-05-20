@@ -1,7 +1,7 @@
 CREATE TABLE Users (
 id uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
 username varchar(50) NOT NULL,
-password varchar(50) NOT NULL,
+password text NOT NULL,
 first_name varchar(50),
 last_name varchar(50),
 middle_name varchar(50),

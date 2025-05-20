@@ -1,6 +1,8 @@
 # For more information on using i18n see: https://github.com/nicksnyder/go-i18n
 - id: welcome_greeting
   translation: "Welcome to Go ESB"
+- id: user.auth.failed
+  translation: "Invalid username/password!"
 - id: user.created.success
   translation: "User has been created successfully!"
 - id: user.updated.success

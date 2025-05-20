@@ -1,0 +1,47 @@
+<style>
+  .auth-wrapper{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-wrapper .sign-form{
+    max-width: 400px;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .auth-wrapper h1{
+    margin-bottom: 20px;
+  }
+
+  .auth-wrapper button{
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+</style>
+<div class="auth-wrapper">
+  <div class="sign-form">
+    <%= formFor(user, {action: signinPath(), method: "POST"}) { %>
+      <h1>Sign in</h1>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Username" id="floatingUsername" placeholder="Username"
+            value="<%= user.Username %>" required />
+        <label for="floatingUsername">Username</label>
+      </div>
+      <div class="form-floating mb-3">
+          <input type="password" class="form-control" name="Password" id="floatingPassword" placeholder="Password"
+              value="<%= user.Password %>" required />
+          <label for="floatingPassword">Password</label>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-outline-success" role="submit">Sign in</button>
+      </div>
+      <div class="text-center">
+        <span>Do you haven't account? <a href="<%= signupPath() %>">Create it!</a></span>
+      </div>
+    <% } %>
+  </div>
+</div>
