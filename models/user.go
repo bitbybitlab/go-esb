@@ -14,7 +14,7 @@ import (
 )
 
 type User struct {
-	ID                   uuid.UUID    `db:"id"`
+	BaseDirectoryModel
 	Username             string       `db:"username"`
 	PasswordHash         string       `db:"password"`
 	FirstName            nulls.String `db:"first_name"`
@@ -22,9 +22,6 @@ type User struct {
 	MiddleName           nulls.String `db:"middle_name"`
 	Phone                nulls.String `db:"phone"`
 	Email                nulls.String `db:"email"`
-	CreateTime           time.Time    `db:"create_time"`
-	UpdateTime           time.Time    `db:"update_time"`
-	Version              int          `db:"version"`
 	Password             string       `json:"-" db:"-"`
 	PasswordConfirmation string       `json:"-" db:"-"`
 }
