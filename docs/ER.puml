@@ -11,20 +11,20 @@ entity "Global" as eGlobal {
 }
 
 entity "Users" as eUsers {
-    *ref : uuid <<FK>>
+    *id : uuid <<FK>>
     --
     *username : varchar (50)
     *password : varchar (50)
 }
 
 entity "Systems" as eSystems {
-    *ref : uuid <<generated>>
+    *id : uuid <<generated>>
     --
     *name : varchar (100)
 }
 
 entity "ConnectionSettings" as eConnectionSettings {
-    *ref : uuid <<generated>>
+    *id : uuid <<generated>>
     --
     *name : varchar (100)
     *system : uuid <<FK>>
@@ -37,7 +37,7 @@ entity "ConnectionSettings" as eConnectionSettings {
 eConnectionSettings -u-> eSystems : system
 
 entity "ConnectionAuthentications" as eConnectionAuthentications {
-    *ref : uuid <<generated>>
+    *id : uuid <<generated>>
     --
     *name : varchar (100)
     *system : uuid <<FK>>
@@ -51,16 +51,28 @@ eConnectionSettings -> eConnectionAuthentications : auth
 eConnectionAuthentications -u-> eSystems : system
 eConnectionAuthentications -> eAuthenticationTypes : type
 
+enum "AuthenticationTypes" as eAuthenticationTypes {
+    + Basic
+    + BearerToken
+}
+
 entity "ThreadsGroups" as eThreadsGroups {
-    *ref : uuid <<generated>>
+    *id : uuid <<generated>>
     --
     *name : varchar (100)
     *protocol : uuid <<FK>>
     parent : uuid <<FK>>
+    message_broker : uuid <<FK>>
+}
+
+enum "MessageBrokersTypes" as eMessageBrokersTypes {
+    + Kafka
+    + Rabbit
 }
 
 eThreadsGroups -d-> eProtocols : protocol
 eThreadsGroups -> eThreadsGroups : parent
+eThreadsGroups -> eMessageBrokersTypes : message_broker
 
 enum "Protocols" as eProtocols {
     + TCP
@@ -69,16 +81,57 @@ enum "Protocols" as eProtocols {
     + AMQP
 }
 
-entity "Thread" as eThread {
-    *ref : uuid <<generated>>
+entity "Thread" as eThreads {
+    *id : uuid <<generated>>
     --
     *name : varchar (100)
     *group : uuid <<FK>>
-    file_format : uuid <<FK>>
+    message_converte_type : uuid <<FK>>
 }
 
-eThreadsGroups <- eThread : group
-eThread -> eFileFormats : file_format
+eThreads -> eThreadsGroups : group
+eThreads -d-> eMessageConverteTypes : message_converte_type
+
+enum "MessageConverteType" as eMessageConverteTypes {
+    + Multiplex
+    + Split
+    + None
+}
+
+entity "Routes" as eRoutes {
+    *id : uuid <<FK>>
+    --
+    *name : varchar (100)
+    *path : varchar (0)
+    *system : uuid <<FK>>
+    method : uuid <<FK>>
+}
+
+eSystems <- eRoutes : system
+eRoutes -d-> eRestMethods : method
+
+enum "RestMethods" as eRestMethods {
+    + Get
+    + Post
+    + Patch
+    + Put
+    + Delete
+}
+
+entity "ThreadRoutes" as eThreadRoutes {
+    --
+    *thread : uuid <<FK>>
+    *route : uuid <<FK>>
+    *direction : uuid <<FK>>
+    *file_format : uuid <<FK>>
+    *object : uuid <<FK>>
+    Routine : uuid <<FK>>
+}
+
+enum "Directions" as eDirections {
+    + In
+    + Out
+}
 
 enum "FileFormats" as eFileFormats {
     + XML
@@ -88,21 +141,48 @@ enum "FileFormats" as eFileFormats {
     + TXT
 }
 
-entity "Routes" as eRoutes {
-    *ref : uuid <<FK>>
+entity "Routines" as eRoutines {
+    *id : uuid <<FK>>
     --
     *name : varchar (100)
-    *path : varchar (0)
+    *type : uuid <<FK>>
+    *code : varchar (0)
 }
 
-enum "AuthenticationTypes" as eAuthenticationTypes {
-    + Basic
-    + BearerToken
+eRoutineTypes <- eRoutines : type
+
+enum "RoutineTypes" as eRoutineTypes {
+    + Before
+    + After
 }
 
-enum "MessageBrokersTypes" as eMessageBrokersTypes {
-    + Kafka
-    + Rabbit
+entity "ThreadObjects" as eThreadObjects {
+    *id : uuid <<FK>>
+    --
+    *name : varchar (100)
+    name_object : varchar (100)
+    type : uuid <<FK>>
+    parent : uuid <<FK>>
 }
+
+eThreadRoutes -d-> eThreads : thread
+eThreadRoutes -d-> eRoutes : route
+eThreadRoutes -u-> eDirections : direction
+eThreadRoutes -> eFileFormats : file_format
+eRoutines <- eThreadRoutes  : routine
+eThreadRoutes -u-> eThreadObjects : object 
+
+enum "ValueTypes" as eValueTypes {
+    + String
+    + Date
+    + Integer
+    + Boolean
+    + Null
+    + Structure
+    + Array
+}
+
+eValueTypes <-eThreadObjects : type
+eThreadObjects -> eThreadObjects : parent
 
 @enduml

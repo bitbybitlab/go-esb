@@ -51,9 +51,6 @@ func AuthCreate(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
-	test, errrrr := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
-	fmt.Print(test, errrrr)
-
 	err = bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(u.Password))
 	if err != nil {
 		return bad()
