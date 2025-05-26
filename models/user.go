@@ -28,22 +28,22 @@ type User struct {
 
 type Users []User
 
-func (u *User) Validate(tx *pop.Connection) (*validate.Errors, error) {
+func (object *User) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	var err error
 	return validate.Validate(
-		&validators.StringIsPresent{Field: u.Username, Name: "Username"},
-		&validators.StringIsPresent{Field: u.PasswordHash, Name: "PasswordHash"},
+		&validators.StringIsPresent{Field: object.Username, Name: "Username"},
+		&validators.StringIsPresent{Field: object.PasswordHash, Name: "PasswordHash"},
 		&validators.FuncValidator{
-			Field:   u.Username,
+			Field:   object.Username,
 			Name:    "Username",
 			Message: "%s is already taken",
 			Fn: func() bool {
 				var b bool
-				q := tx.Where("username = ?", u.Username)
-				if u.ID != uuid.Nil {
-					q = q.Where("id != ?", u.ID)
+				q := tx.Where("username = ?", object.Username)
+				if object.ID != uuid.Nil {
+					q = q.Where("id != ?", object.ID)
 				}
-				b, err = q.Exists(u)
+				b, err = q.Exists(object)
 				if err != nil {
 					return false
 				}
@@ -53,31 +53,32 @@ func (u *User) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	), err
 }
 
-func (u *User) ValidateCreate(tx *pop.Connection) (*validate.Errors, error) {
+func (object *User) ValidateCreate(tx *pop.Connection) (*validate.Errors, error) {
 	var err error
 	return validate.Validate(
-		&validators.StringIsPresent{Field: u.Password, Name: "Password"},
-		&validators.StringsMatch{Name: "Password", Field: u.Password, Field2: u.PasswordConfirmation, Message: "PasswordHash does not match confirmation"},
+		&validators.StringIsPresent{Field: object.Password, Name: "Password"},
+		&validators.StringsMatch{Name: "Password", Field: object.Password, Field2: object.PasswordConfirmation,
+			Message: "PasswordHash does not match confirmation"},
 	), err
 }
 
-func (u *User) Create(tx *pop.Connection) (*validate.Errors, error) {
-	u.Username = strings.ToLower(strings.TrimSpace(u.Username))
-	ph, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+func (object *User) Create(tx *pop.Connection) (*validate.Errors, error) {
+	object.Username = strings.ToLower(strings.TrimSpace(object.Username))
+	ph, err := bcrypt.GenerateFromPassword([]byte(object.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return validate.NewErrors(), errors.WithStack(err)
 	}
-	u.PasswordHash = string(ph)
-	u.CreateTime = time.Now()
-	u.UpdateTime = u.CreateTime
-	u.Version = 1
+	object.PasswordHash = string(ph)
+	object.CreateTime = time.Now()
+	object.UpdateTime = object.CreateTime
+	object.Version = 1
 
-	return tx.ValidateAndCreate(u)
+	return tx.ValidateAndCreate(object)
 }
 
-func (u *User) Update(tx *pop.Connection) (*validate.Errors, error) {
-	u.UpdateTime = time.Now()
-	u.Version += 1
+func (object *User) Update(tx *pop.Connection) (*validate.Errors, error) {
+	object.UpdateTime = time.Now()
+	object.Version += 1
 
-	return tx.ValidateAndUpdate(u)
+	return tx.ValidateAndUpdate(object)
 }

@@ -17,26 +17,17 @@ entity "Users" as eUsers {
     *password : varchar (50)
 }
 
-entity "Systems" as eSystems {
+entity "ExternalSystems" as eExternalSystems {
     *id : uuid <<generated>>
     --
     *name : varchar (100)
-}
-
-entity "ConnectionSettings" as eConnectionSettings {
-    *id : uuid <<generated>>
-    --
-    *name : varchar (100)
-    *system : uuid <<FK>>
     ip : varchar (50)
     port : varchar (50)
     path : varchar (300)
-    auth : uuid <<FK>>
+    driver : varchar (0)
 }
 
-eConnectionSettings -u-> eSystems : system
-
-entity "ConnectionAuthentications" as eConnectionAuthentications {
+entity "ExternalUsers" as eExternalUsers {
     *id : uuid <<generated>>
     --
     *name : varchar (100)
@@ -47,9 +38,8 @@ entity "ConnectionAuthentications" as eConnectionAuthentications {
     token : varchar (100)
 }
 
-eConnectionSettings -> eConnectionAuthentications : auth
-eConnectionAuthentications -u-> eSystems : system
-eConnectionAuthentications -> eAuthenticationTypes : type
+eExternalUsers -u-> eExternalSystems : system
+eExternalUsers -> eAuthenticationTypes : type
 
 enum "AuthenticationTypes" as eAuthenticationTypes {
     + Basic
@@ -107,7 +97,7 @@ entity "Routes" as eRoutes {
     method : uuid <<FK>>
 }
 
-eSystems <- eRoutes : system
+eExternalSystems <- eRoutes : system
 eRoutes -d-> eRestMethods : method
 
 enum "RestMethods" as eRestMethods {
