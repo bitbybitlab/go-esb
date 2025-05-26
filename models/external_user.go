@@ -11,13 +11,14 @@ import (
 
 type ExternalUser struct {
 	BaseDirectoryModel
-	Name     string         `db:"name"`
-	SystemID uuid.UUID      `db:"system"`
-	System   ExternalSystem `belongs_to:"system"`
-	//Type     AuthenticationType `db:"type"`
-	Username nulls.String `db:"username"`
-	Password nulls.String `db:"password"`
-	Token    nulls.String `db:"token"`
+	Name     string             `db:"name"`
+	SystemID uuid.UUID          `db:"system"`
+	System   ExternalSystem     `belongs_to:"system"`
+	TypeID   uuid.UUID          `db:"type"`
+	Type     AuthenticationType `belongs_to:"type"`
+	Username nulls.String       `db:"username"`
+	Password nulls.String       `db:"password"`
+	Token    nulls.String       `db:"token"`
 }
 
 type ExternalUsers []ExternalUser

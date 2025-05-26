@@ -24,10 +24,24 @@ update_time timestamp default (now() at time zone 'utc') NOT NULL,
 version int NOT NULL default 0
 );
 
+CREATE TABLE authentication_types (
+id uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
+name varchar(150) UNIQUE NOT NULL,
+description varchar(300)
+);
+
+INSERT INTO public.authentication_types(
+	name, description)
+	VALUES ('Basic', 'Auth with username and password');
+INSERT INTO public.authentication_types(
+	name, description)
+	VALUES ('BearerToken', 'Bearer token (JWT-token)');
+
 CREATE TABLE external_users (
 id uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
 name varchar(100) UNIQUE NOT NULL,
-system uuid NOT NULL REFERENCES systems (id),
+system uuid NOT NULL REFERENCES external_systems (id),
+type uuid NOT NULL REFERENCES authentication_types (id),
 username varchar(50),
 password varchar(50),
 token varchar(100),
