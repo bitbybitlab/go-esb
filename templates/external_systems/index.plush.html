@@ -1,0 +1,58 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">Systems</h3>
+  <div class="float-end">
+    <%= linkTo(newExternalSystemsPath(), {class: "btn btn-outline-success"}) { %>
+      Create New External System
+    <% } %>
+    <%= linkTo(settingsPath(), {class: "btn btn-close"}) %>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr class="table-dark" text-align="left">
+      <th>Name</th>
+      <th>Ip</th>
+      <th>Port</th>
+      <th>Path</th>
+      <th>Update time</th>
+      <th>Version</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for (system) in external_systems { %>
+      <tr>
+        <td>
+          <%= system.Name %>
+        </td>
+        <td>
+          <%= system.Ip %>
+        </td>
+        <td>
+          <%= system.Port %>
+        </td>
+        <td>
+          <%= system.Path %>
+        </td>
+        <td>
+          <%= system.UpdateTime %>
+        </td>
+        <td>
+          <%= system.Version %>
+        </td>
+        <td>
+          <div class="float-end">
+            <%= linkTo(externalSystemsPath({ external_system_id: system.ID }), {class: "btn btn-outline-dark", "data-method": "GET", body: "View"}) %>
+            <%= linkTo(editExternalSystemExternalSystemIDPath({ external_system_id: system.ID }), {class: "btn btn-outline-dark", "data-method": "GET", body: "Edit"}) %>
+            <%= linkTo(externalSystemExternalSystemIDPath({ external_system_id: system.ID }), {class: "btn btn-outline-dark", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>

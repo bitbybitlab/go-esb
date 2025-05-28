@@ -20,13 +20,3 @@ func init() {
 	}
 	pop.Debug = env == "development"
 }
-
-func GetAllUsers() []User {
-	users := []User{}
-	err := DB.All(&users)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return users
-}

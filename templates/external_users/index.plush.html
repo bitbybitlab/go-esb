@@ -1,0 +1,54 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">Users</h3>
+  <div class="float-end">
+    <%= linkTo(newExternalUsersPath(), {class: "btn btn-outline-success"}) { %>
+      Create New External User
+    <% } %>
+    <%= linkTo(settingsPath(), {class: "btn btn-close"}) %>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr class="table-dark" text-align="left">
+      <th>Name</th>
+      <th>System</th>
+      <th>Auth type</th>
+      <th>Update time</th>
+      <th>Version</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for (ex_usr) in ex_usrs { %>
+      <tr>
+        <td>
+          <%= ex_usr.Name %>
+        </td>
+        <td>
+          <%= ex_usr.System.Name %>
+        </td>
+        <td>
+          <%= ex_usr.Type.Name %>
+        </td>
+        <td>
+          <%= ex_usr.UpdateTime %>
+        </td>
+        <td>
+          <%= ex_usr.Version %>
+        </td>
+        <td>
+          <div class="float-end">
+            <%= linkTo(externalUserExternalUserIDPath({ external_user_id: ex_usr.ID }), {class: "btn btn-outline-dark", "data-method": "GET", body: "View"}) %>
+            <%= linkTo(editExternalUserExternalUserIDPath({ external_user_id: ex_usr.ID }), {class: "btn btn-outline-dark", "data-method": "GET", body: "Edit"}) %>
+            <%= linkTo(externalUserExternalUserIDPath({ external_user_id: ex_usr.ID }), {class: "btn btn-outline-dark", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>

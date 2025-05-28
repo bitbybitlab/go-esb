@@ -79,6 +79,8 @@ func App() *buffalo.App {
 		app.DELETE("/signout", AuthDestroy)
 
 		app.Resource("/users", UsersResource{})
+		app.Resource("/external-systems", ExternalSystemsResource{})
+		app.Resource("/external-users", ExternalUsersResource{})
 
 		app.Middleware.Skip(Authorize, HomeHandler, AuthNew, AuthCreate, AuthNewSignup, AuthCreateSignup)
 
