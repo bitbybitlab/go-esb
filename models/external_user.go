@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gobuffalo/validate/v3"
@@ -24,15 +22,12 @@ type ExternalUser struct {
 type ExternalUsers []ExternalUser
 
 func (object *ExternalUser) Create(tx *pop.Connection) (*validate.Errors, error) {
-	object.CreateTime = time.Now()
-	object.UpdateTime = object.CreateTime
 	object.Version = 1
 
 	return tx.ValidateAndCreate(object)
 }
 
 func (object *ExternalUser) Update(tx *pop.Connection) (*validate.Errors, error) {
-	object.UpdateTime = time.Now()
 	object.Version += 1
 
 	return tx.ValidateAndUpdate(object)

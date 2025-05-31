@@ -1,0 +1,38 @@
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" name="Name" id="floatingName" placeholder="Name"
+        value="<%= data.Name %>" required />
+    <label for="floatingName">Name</label>
+</div>
+<div class="form-floating mb-3">
+    <select class="form-select" name="TypeID" aria-label="Type" id="floatingType" required>
+        <option value="">Choose connection type...</option>
+        <%= for (enum) in enums { %>
+            <%= if (enum.ID.String() == data.TypeID.String()) { %>
+                <option value="<%= enum.ID %>" selected="selected"><%= enum.Description %></option>
+            <% } else { %>
+                <option value="<%= enum.ID %>"><%= enum.Description %></option>
+            <% } %>
+        <% } %>
+    </select>
+    <label for="floatingType">Type</label>
+</div>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" name="Ip" id="floatingIp" placeholder="Ip"
+        value="<%= data.Ip %>" />
+    <label for="floatingIp">Ip</label>
+</div>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" name="Port" id="floatingPort" placeholder="Port"
+        value="<%= data.Port %>" />
+    <label for="floatingPort">Port</label>
+</div>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" name="Path" id="floatingPath" placeholder="Path"
+        value="<%= data.Path %>" />
+    <label for="floatingPath">Path</label>
+</div>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" name="Driver" id="floatingDriver" placeholder="Driver"
+        value="<%= data.Driver %>" />
+    <label for="floatingDriver">Driver</label>
+</div>

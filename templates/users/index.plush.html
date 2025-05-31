@@ -17,13 +17,12 @@
       <th>Middle name</th>
       <th>Phone</th>
       <th>E-mail</th>
-      <th>Update time</th>
       <th>Version</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
   <tbody>
-    <%= for (user) in users { %>
+    <%= for (user) in data { %>
       <tr>
         <td>
           <%= user.Username %>
@@ -42,9 +41,6 @@
         </td>
         <td>
           <%= user.Email %>
-        </td>
-        <td>
-          <%= user.UpdateTime %>
         </td>
         <td>
           <%= user.Version %>
