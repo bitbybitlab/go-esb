@@ -12,9 +12,16 @@ update_time timestamp default (now() at time zone 'utc') NOT NULL,
 version int NOT NULL default 0
 );
 
+CREATE TABLE connection_types (
+id uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
+name varchar(150) UNIQUE NOT NULL,
+description varchar(300)
+);
+
 CREATE TABLE external_systems (
 id uuid default gen_random_uuid() NOT NULL PRIMARY KEY,
 name varchar(100) UNIQUE NOT NULL,
+type uuid NOT NULL REFERENCES connection_types (id),
 ip varchar(50),
 port varchar(50),
 path varchar(300),

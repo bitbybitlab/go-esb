@@ -9,3 +9,9 @@
   translation: "User has been updated successfully!"
 - id: user.destroyed.success
   translation: "User has been destroyed successfully!"
+- id: external_system.created.success
+  translation: "External system has been created successfully!"
+- id: external_system.updated.success
+  translation: "External system has been updated successfully!"
+- id: external_system.destroyed.success
+  translation: "External system has been destroyed successfully!"

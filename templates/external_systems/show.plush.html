@@ -1,0 +1,45 @@
+<div class="esb-main-content">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <h1>View external system: <%= data.Name %>
+            </h1>
+            <div class="d-none d-lg-block">
+                <%= linkTo(externalSystemsPath(), {class: "btn btn-close" }) %>
+            </div>
+        </div>
+    </nav>
+    <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="floatingReference" value="<%= data.ID %>" readonly />
+        <label for="floatingReference">UUID</label>
+    </div>
+    <div class="form-floating mb-3">
+    <input type="text" class="form-control" name="Name" id="floatingName" placeholder="Name"
+        value="<%= data.Name %>" readonly />
+        <label for="floatingName">Name</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Type" id="floatingType" placeholder="Type"
+            value="<%= data.Type.Description %>" readonly />
+        <label for="floatingType">Type</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Ip" id="floatingIp" placeholder="Ip"
+            value="<%= data.Ip %>" readonly />
+        <label for="floatingIp">Ip</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Port" id="floatingPort" placeholder="Port"
+            value="<%= data.Port %>" readonly />
+        <label for="floatingPort">Port</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Path" id="floatingPath" placeholder="Path"
+            value="<%= data.Path %>" readonly />
+        <label for="floatingPath">Path</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Driver" id="floatingDriver" placeholder="Driver"
+            value="<%= data.Driver %>" readonly />
+        <label for="floatingDriver">Driver</label>
+    </div>
+</div>

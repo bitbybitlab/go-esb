@@ -1,7 +1,7 @@
 <div class="esb-main-content">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <h1>View user: <%= user.Username %>
+            <h1>View user: <%= data.Username %>
             </h1>
             <div class="d-none d-lg-block">
                 <%= linkTo(usersPath(), {class: "btn btn-close" }) %>
@@ -9,46 +9,36 @@
         </div>
     </nav>
     <div class="form-floating mb-3">
-        <input class="form-control" type="text" id="floatingReference" value="<%= user.ID %>" readonly />
+        <input class="form-control" type="text" id="floatingReference" value="<%= data.ID %>" readonly />
         <label for="floatingReference">UUID</label>
     </div>
     <div class="form-floating mb-3">
         <input type="text" class="form-control" name="FirstName" id="floatingFirstName" placeholder="First name"
-            value="<%= user.FirstName %>" readonly />
+            value="<%= data.FirstName %>" readonly />
         <label for="floatingFirstName">First name</label>
     </div>
     <div class="form-floating mb-3">
         <input type="text" class="form-control" name="LastName" id="floatingLastName" placeholder="Last name"
-            value="<%= user.LastName %>" readonly />
+            value="<%= data.LastName %>" readonly />
         <label for="floatingLastName">Second name</label>
     </div>
     <div class="form-floating mb-3">
         <input type="text" class="form-control" name="MiddleName" id="floatingMiddleName" placeholder="Middle name"
-            value="<%= user.MiddleName %>" readonly />
+            value="<%= data.MiddleName %>" readonly />
         <label for="floatingMiddleName">Middle name</label>
     </div>
     <div class="form-floating mb-3">
         <input type="tel" class="form-control" name="Phone" id="floatingPhone" placeholder="Phone"
-            value="<%= user.Phone %>" readonly />
+            value="<%= data.Phone %>" readonly />
         <label for="floatingPhone">Phone</label>
     </div>
     <div class="form-floating mb-3">
         <input type="email" class="form-control" name="Email" id="floatingEmail" placeholder="E-mail"
-            value="<%= user.Email %>" readonly />
+            value="<%= data.Email %>" readonly />
         <label for="floatingEmail">E-mail</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="datetime" class="form-control" name="CreateTime" id="floatingCreateTime" placeholder="Create time"
-            value="<%= user.CreateTime %>" readonly />
-        <label for="floatingCreateTime">Create time</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="datetime" class="form-control" name="UpdateTime" id="floatingUpdateTime" placeholder="Update time"
-            value="<%= user.UpdateTime %>" readonly />
-        <label for="floatingUpdateTime">Update time</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input class="form-control" type="text" id="floatingVersion" value="<%= user.Version %>" readonly />
+        <input class="form-control" type="text" id="floatingVersion" value="<%= data.Version %>" readonly />
         <label for="floatingVersion">Version</label>
     </div>   
 </div>

@@ -2,13 +2,11 @@ package models
 
 import (
 	"strings"
-	"time"
 
 	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gobuffalo/validate/v3"
 	"github.com/gobuffalo/validate/v3/validators"
-	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -40,9 +38,6 @@ func (object *User) Validate(tx *pop.Connection) (*validate.Errors, error) {
 			Fn: func() bool {
 				var b bool
 				q := tx.Where("username = ?", object.Username)
-				if object.ID != uuid.Nil {
-					q = q.Where("id != ?", object.ID)
-				}
 				b, err = q.Exists(object)
 				if err != nil {
 					return false
@@ -69,16 +64,13 @@ func (object *User) Create(tx *pop.Connection) (*validate.Errors, error) {
 		return validate.NewErrors(), errors.WithStack(err)
 	}
 	object.PasswordHash = string(ph)
-	object.CreateTime = time.Now()
-	object.UpdateTime = object.CreateTime
 	object.Version = 1
 
 	return tx.ValidateAndCreate(object)
 }
 
-func (object *User) Update(tx *pop.Connection) (*validate.Errors, error) {
-	object.UpdateTime = time.Now()
+func (object *User) Update(tx *pop.Connection) error {
 	object.Version += 1
 
-	return tx.ValidateAndUpdate(object)
+	return tx.Update(object)
 }

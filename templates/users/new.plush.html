@@ -1,5 +1,5 @@
 <div class="esb-main-content">
-    <%= formFor(user, {action: usersPath(), method: "POST"}) { %>
+    <%= formFor(data, {action: usersPath(), method: "POST"}) { %>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <h1>Create new user
@@ -11,6 +11,11 @@
                 </div>
             </div>
         </nav>
-        <%= partial("user_form.html") %>   
+        <%= partial("user_form.html") %>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="Password" id="floatingPassword" placeholder="Password"
+                value="<%= data.Password %>" required />
+            <label for="floatingPassword">Password</label>
+        </div>   
     <% } %>
 </div>

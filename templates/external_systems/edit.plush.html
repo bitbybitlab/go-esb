@@ -1,12 +1,12 @@
 <div class="esb-main-content">
-    <%= formFor(data, {action: userPath({ user_id: data.ID }), method: "PUT"}) { %>
+    <%= formFor(data, {action: externalSystemExternalSystemIDPath({ external_system_id: data.ID }), method: "PUT"}) { %>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <h1>Edit user: <%= data.Username %>
+                <h1>Edit external system: <%= data.Name %>
                 </h1>
                 <div class="d-none d-lg-block">
                     <button class="btn btn-outline-success" role="submit">Save</button>
-                    <%= linkTo(usersPath(), {class: "btn btn-close" , "data-confirm"
+                    <%= linkTo(externalSystemsPath(), {class: "btn btn-close" , "data-confirm"
                         : "Are you sure? All changes will be lost." }) %>
                 </div>
             </div>
@@ -15,6 +15,6 @@
             <input class="form-control" type="text" id="floatingReference" value="<%= data.ID %>" readonly />
             <label for="floatingReference">UUID</label>
         </div>
-        <%= partial("user_form.html") %>   
+        <%= partial("external_system_form.html") %>   
     <% } %>
 </div>

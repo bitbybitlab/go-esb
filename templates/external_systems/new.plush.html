@@ -1,0 +1,16 @@
+<div class="esb-main-content">
+    <%= formFor(data, {action: externalSystemsPath(), method: "POST"}) { %>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <h1>Create new external system
+                </h1>
+                <div class="d-none d-lg-block">
+                    <button class="btn btn-outline-success" role="submit">Save</button>
+                    <%= linkTo(externalSystemsPath(), {class: "btn btn-close" , "data-confirm"
+                        : "Are you sure? All changes will be lost." }) %>
+                </div>
+            </div>
+        </nav>
+        <%= partial("external_system_form.html") %>  
+    <% } %>
+</div>
